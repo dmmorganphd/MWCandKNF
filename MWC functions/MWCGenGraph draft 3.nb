@@ -1,0 +1,592 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     27617,        583]
+NotebookOptionsPosition[     27193,        564]
+NotebookOutlinePosition[     27558,        580]
+CellTagsIndexPosition[     27515,        577]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+This is based on MWCPlot, originally developed for my presentation in London, \
+but now redisigned (hopefully) to function with sliders as a \
+\[OpenCurlyDoubleQuote]Manipulate\[CloseCurlyDoubleQuote] object in a CDF.
+
+MWCPlot is quite general; any quantity resulting from the simulation can be \
+plotted against any other resulting quantity. Here I assume that the x-axis \
+will always be PO2, and that users would want to consider how all R, all T, \
+or Y species vary with PO2. 
+
+So here is my list of possible plots:
+
+\t0\tY vs. PO2
+\t1\tAll R vs. PO2
+\t2\tR0, R1, R2, R3, R4, fR vs. PO2
+\t3\t0 & 2
+\t4\t0 & 1
+\t5\tAll T vs. PO2
+\t6\tT0, T1, T2, T3, T4, fT vs PO2
+\t7\t0 & 6
+\t8\t0 & 5
+\t9\t0, 2, 6
+\t10\t0, 1, 5
+
+\
+\>", "Text",
+ CellChangeTimes->{{3.5480693649285016`*^9, 3.548069471859502*^9}, {
+  3.561896832764352*^9, 3.5618972111779046`*^9}, {3.561902468803038*^9, 
+  3.561902469075073*^9}, {3.561905326155876*^9, 3.561905326195881*^9}, {
+  3.5619270560572233`*^9, 3.561927056221244*^9}, {3.561930202225236*^9, 
+  3.5619302022257357`*^9}, {3.56193026076717*^9, 3.5619302644721403`*^9}, {
+  3.562015365066043*^9, 3.5620154413992357`*^9}, {3.562019288752788*^9, 
+  3.5620192962002335`*^9}, {3.56201936421087*^9, 3.5620193771295104`*^9}, {
+  3.5620194769686885`*^9, 3.5620194912745047`*^9}, {3.5620195569633465`*^9, 
+  3.562019608482888*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"MWCGenGraph", "[", "\[IndentingNewLine]", 
+   RowBox[{"arg_", ",", " ", "MWCDataSet_"}], "\[IndentingNewLine]", "]"}], 
+  " ", ":=", " ", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+     "YPLOT", ",", "\[IndentingNewLine]", "FIVERPLOT", ",", 
+      "\[IndentingNewLine]", "fRPLOT", ",", "\[IndentingNewLine]", 
+      "FIVETPLOT", ",", "\[IndentingNewLine]", "fTPLOT", ",", 
+      "\[IndentingNewLine]", "OUTPUT", ",", "\[IndentingNewLine]", 
+      "iterator"}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"YPLOT", " ", "=", " ", 
+      RowBox[{"ListPlot", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+           ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}]}], "}"}], "\[IndentingNewLine]", "]"}], ",", " ", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotRange", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{"All", ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "1"}], "}"}]}], "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotJoined", " ", "\[Rule]", " ", "True"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotStyle", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{"Black", ",", " ", 
+           RowBox[{"Thickness", "[", "0.01", "]"}]}], "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ImageSize", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"9", " ", "72"}], ",", " ", 
+           RowBox[{"6", " ", "72"}]}], "}"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"Axes", " ", "\[Rule]", " ", "False"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Frame", " ", "\[Rule]", " ", "True"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"FrameLabel", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{
+          "\"\<\!\(\*SubscriptBox[\(PO\), \(2\)]\), torr\>\"", ",", " ", 
+           "\"\<Y\>\""}], "}"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"TextStyle", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"FontFamily", " ", "\[Rule]", " ", "\"\<Arial\>\""}], ",", 
+           " ", 
+           RowBox[{"FontSize", " ", "\[Rule]", " ", "18"}]}], "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"FrameStyle", " ", "\[Rule]", " ", 
+         RowBox[{"Thickness", "[", "0.005", "]"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+        "PlotLabel", " ", "\[Rule]", " ", 
+         "\"\<Y vs. \!\(\*SubscriptBox[\(PO\), \(2\)]\)\>\""}]}], 
+       "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"fRPLOT", " ", "=", " ", 
+      RowBox[{"ListPlot", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+           ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "5", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}]}], "}"}], "\[IndentingNewLine]", "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotRange", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{"All", ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "1"}], "}"}]}], "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotJoined", " ", "\[Rule]", " ", "True"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotStyle", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{"Red", ",", " ", 
+           RowBox[{"Thickness", "[", "0.01", "]"}]}], "}"}]}]}], 
+       "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"FIVERPLOT", " ", "=", " ", 
+      RowBox[{"ListPlot", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Table", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{"#", "[", 
+                RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+             ",", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "iterator", "]"}], "]"}], "/", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", "4", "]"}], "]"}], "+", 
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+              "MWCDataSet"}]}], "}"}], "\[IndentingNewLine]", "]"}], ",", " ",
+           "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{"iterator", ",", " ", "11", ",", " ", "15"}], "}"}]}], 
+         "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"PlotRange", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{"All", ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "1"}], "}"}]}], "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotStyle", " ", "\[Rule]", " ", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"Dotted", ",", "Red", ",", " ", 
+             RowBox[{"Thickness", "[", "0.01", "]"}]}], "}"}], ",", " ", 
+           "\[IndentingNewLine]", 
+           RowBox[{"{", 
+            RowBox[{"DotDashed", ",", "Red", ",", " ", 
+             RowBox[{"Thickness", "[", "0.01", "]"}]}], "}"}], ",", " ", 
+           "\[IndentingNewLine]", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Dashing", "[", "Small", "]"}], ",", "Red", ",", " ", 
+             RowBox[{"Thickness", "[", "0.01", "]"}]}], "}"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Dashing", "[", "Medium", "]"}], ",", "Red", ",", " ", 
+             RowBox[{"Thickness", "[", "0.01", "]"}]}], "}"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Dashing", "[", "Large", "]"}], ",", "Red", ",", " ", 
+             RowBox[{"Thickness", "[", "0.01", "]"}]}], "}"}]}], 
+          "\[IndentingNewLine]", "}"}]}], ",", " ", "\[IndentingNewLine]", 
+        RowBox[{"PlotJoined", " ", "\[Rule]", " ", "True"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ImageSize", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"9", " ", "72"}], ",", " ", 
+           RowBox[{"6", " ", "72"}]}], "}"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"Axes", " ", "\[Rule]", " ", "False"}], ",", 
+        "\[IndentingNewLine]", " ", 
+        RowBox[{"Frame", " ", "\[Rule]", " ", "True"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"FrameLabel", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{
+          "\"\<\!\(\*SubscriptBox[\(PO\), \(2\)]\), torr\>\"", ",", " ", 
+           "\"\<Fraction of Relaxed Species\>\""}], "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"TextStyle", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"FontFamily", " ", "\[Rule]", " ", "\"\<Arial\>\""}], ",", 
+           " ", 
+           RowBox[{"FontSize", " ", "\[Rule]", " ", "18"}]}], "}"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"FrameStyle", " ", "\[Rule]", " ", 
+         RowBox[{"Thickness", "[", "0.005", "]"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+        "PlotLabel", " ", "\[Rule]", " ", 
+         "\"\<Relaxed Species vs. \!\(\*SubscriptBox[\(PO\), \
+\(2\)]\)\>\""}]}], "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"FIVETPLOT", " ", "=", " ", 
+      RowBox[{"Show", "[", "\[IndentingNewLine]", 
+       RowBox[{"Table", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"ListPlot", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+              ",", 
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{"#", "[", 
+                  RowBox[{"[", "iterator", "]"}], "]"}], "/", 
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"#", "[", 
+                    RowBox[{"[", "4", "]"}], "]"}], "+", 
+                   RowBox[{"#", "[", 
+                    RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+               "MWCDataSet"}]}], "}"}], "\[IndentingNewLine]", "]"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"PlotRange", " ", "\[Rule]", " ", 
+            RowBox[{"{", 
+             RowBox[{"All", ",", " ", 
+              RowBox[{"{", 
+               RowBox[{"0", ",", " ", "1"}], "}"}]}], "}"}]}]}], 
+          "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{"iterator", ",", " ", "6", ",", " ", "10"}], "}"}]}], 
+        "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"fTPLOT", " ", "=", " ", 
+      RowBox[{"ListPlot", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+           ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "4", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}]}], "}"}], "\[IndentingNewLine]", "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"PlotRange", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{"All", ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", " ", "1"}], "}"}]}], "}"}]}]}], 
+       "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"OUTPUT", " ", "=", " ", 
+      RowBox[{"Which", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"arg", " ", "\[Equal]", " ", "0"}], ",", " ", "YPLOT", ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "1"}], ",", " ", "fRPLOT", ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "2"}], ",", " ", 
+        RowBox[{"Show", "[", "\[IndentingNewLine]", 
+         RowBox[{"FIVERPLOT", ",", "fRPLOT"}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "3"}], ",", " ", 
+        RowBox[{"Show", "[", "\[IndentingNewLine]", 
+         RowBox[{"YPLOT", ",", " ", "FIVERPLOT"}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", "4"}], ",", " ", 
+        RowBox[{"Show", "[", "\[IndentingNewLine]", 
+         RowBox[{"YPLOT", ",", " ", "fRPLOT"}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "5"}], ",", " ", "fTPLOT", ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "6"}], ",", " ", 
+        RowBox[{"Show", "[", "\[IndentingNewLine]", 
+         RowBox[{"FIVETPLOT", ",", " ", "fTPLOT"}], "\[IndentingNewLine]", 
+         "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "7"}], ",", " ", 
+        RowBox[{"Show", "[", "\[IndentingNewLine]", 
+         RowBox[{"YPLOT", ",", " ", "FIVETPLOT"}], "\[IndentingNewLine]", 
+         "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "8"}], ",", " ", 
+        RowBox[{"Show", "[", "\[IndentingNewLine]", 
+         RowBox[{"YPLOT", ",", " ", "fTPLOT"}], "\[IndentingNewLine]", "]"}], 
+        ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "9"}], ",", " ", 
+        RowBox[{"Show", "[", "\[IndentingNewLine]", 
+         RowBox[{"YPLOT", ",", " ", "FIVERPLOT", ",", " ", "FIVETPLOT"}], 
+         "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "10"}], ",", " ", 
+        RowBox[{"Show", "[", "\[IndentingNewLine]", 
+         RowBox[{"YPLOT", ",", " ", "fRPLOT", ",", " ", "fTPLOT"}], 
+         "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}]}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ CellChangeTimes->{{3.561930486343814*^9, 3.5619305412352843`*^9}, {
+   3.5619305878197002`*^9, 3.5619306099140053`*^9}, {3.5619333171807847`*^9, 
+   3.561933343610141*^9}, {3.5619333751686482`*^9, 3.56193353606658*^9}, {
+   3.5619335983039827`*^9, 3.5619336202867746`*^9}, {3.5619341218949704`*^9, 
+   3.561934301494277*^9}, {3.5619343884898233`*^9, 3.5619344048218975`*^9}, {
+   3.5619345059447384`*^9, 3.5619345060707545`*^9}, {3.5619346766419144`*^9, 
+   3.561934823586074*^9}, 3.561934860443754*^9, {3.5619349533720546`*^9, 
+   3.5619352725955906`*^9}, {3.5619353187079463`*^9, 3.561935344812261*^9}, {
+   3.5619829491692467`*^9, 3.5619830402118077`*^9}, {3.5619831786683893`*^9, 
+   3.5619832063949103`*^9}, {3.561983248948814*^9, 3.561983264674811*^9}, {
+   3.5619835037526703`*^9, 3.561983512630297*^9}, {3.5620143989708643`*^9, 
+   3.562014451469031*^9}, 3.5620145099139524`*^9, {3.5620146328685656`*^9, 
+   3.5620149323685975`*^9}, {3.562014967162016*^9, 3.5620149694373045`*^9}, {
+   3.5620150000326896`*^9, 3.5620150319027367`*^9}, {3.5620150628426657`*^9, 
+   3.5620152395336027`*^9}, {3.562015600495939*^9, 3.56201563476229*^9}, {
+   3.5620156746143503`*^9, 3.5620156979608154`*^9}, {3.562016021253868*^9, 
+   3.5620160742470975`*^9}, {3.562016916662571*^9, 3.562016922373796*^9}, {
+   3.5620176563499994`*^9, 3.56201765651502*^9}, {3.5620177028849087`*^9, 
+   3.562017703361469*^9}, {3.562018130519711*^9, 3.562018130677231*^9}, {
+   3.56201851765137*^9, 3.562018525339347*^9}, 3.562019278247954*^9, {
+   3.56201941445625*^9, 3.562019423764432*^9}, {3.562019455178921*^9, 
+   3.5620194695892515`*^9}, {3.5620195022744017`*^9, 3.562019523657117*^9}, {
+   3.5620999604314833`*^9, 3.562099960617507*^9}, 3.5621000884727426`*^9, {
+   3.56210256341152*^9, 3.562102625064849*^9}, {3.562102763589939*^9, 
+   3.5621028187654457`*^9}, {3.562102993951192*^9, 3.5621030075294156`*^9}, {
+   3.562103059938571*^9, 3.562103061338749*^9}, {3.562103097631857*^9, 
+   3.562103120998824*^9}, {3.562103154441571*^9, 3.5621031969774723`*^9}, {
+   3.5621032385247483`*^9, 3.5621032392603416`*^9}, {3.5621032932481976`*^9, 
+   3.562103297054181*^9}, {3.562103330176387*^9, 3.562103463949874*^9}, {
+   3.562103511336391*^9, 3.5621035913820553`*^9}, {3.562104181042433*^9, 
+   3.5621042807915993`*^9}, {3.5621044169333873`*^9, 
+   3.5621045536437473`*^9}, {3.562104645022851*^9, 3.5621047006174107`*^9}, {
+   3.562104741967161*^9, 3.562104747554371*^9}, 3.562279142264988*^9, {
+   3.5622796725983315`*^9, 3.5622796972759647`*^9}, {3.562279790698328*^9, 
+   3.5622798459568453`*^9}, 3.5622799798258443`*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"test1", " ", "=", " ", 
+  RowBox[{"MWCGenGraph", "[", "\[IndentingNewLine]", 
+   RowBox[{"2", ",", " ", "mwcsolutionset"}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.5620158246704054`*^9, 3.562015829842062*^9}, 
+   3.5620158726124935`*^9, {3.56201590589822*^9, 3.5620159917581224`*^9}, {
+   3.5620162256698256`*^9, 3.5620162397071085`*^9}, {3.562016309980032*^9, 
+   3.562016347980857*^9}, 3.5620164560685825`*^9, {3.5620164882136645`*^9, 
+   3.5620165591001663`*^9}, {3.562016699102944*^9, 3.5620167317825937`*^9}, {
+   3.5620168230056777`*^9, 3.562016826298596*^9}, {3.562016937533221*^9, 
+   3.5620169375812273`*^9}, 3.5620170302069893`*^9, {3.562017095614295*^9, 
+   3.562017173918738*^9}, {3.5620176193062954`*^9, 3.56201761974135*^9}, {
+   3.5620177237105527`*^9, 3.562017747119025*^9}, {3.562017783567154*^9, 
+   3.5620178108061123`*^9}, {3.5620178619586077`*^9, 3.56201790378942*^9}, {
+   3.562017954286332*^9, 3.562018053206894*^9}, {3.5621028400426474`*^9, 
+   3.562102844843757*^9}, {3.5621030406436205`*^9, 3.5621030426103706`*^9}, {
+   3.5621043026263723`*^9, 3.5621043033319616`*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{{}, {}, 
+    {RGBColor[1, 0, 0], Thickness[0.01], Dashing[{0, Small}], 
+     LineBox[CompressedData["
+1:eJwdkn0w1HEQxr3NKCkU4gxHr/LSy5FK2e+mdOWkw+GIIiEppy56nStKGaG7
+0QklQi+DOL0cUielq5SIJjUupZSkF6Pi0nT63e3szv63z+6zH7stPP9oHS0t
+LQZV6l6Qr456MqZIKTN3oxHWq1aeXYQeFnCLynUcaKRvV+zEhj/TsOqp+7zt
+I5akdLQ/NPq+NXYHeIhjeZakBlxfnpDPRHrhndjPURZElPJLFVZhjwmdyhct
+NeYksfnGXIbQGXsTfGd3hpmSK0fdqVyEpaqkZGWuCbG4WLDie6ULVljzE8zD
+J5N0+Vg7l+6GB77Uec1U6BOlWk60FHvZEtYPA12i3sZZbzkyGocxkqaCLger
+7LxkD/TZl/fBr24UmD4HZ+gOEKx+Xsjg1Q1Dt3Rnt9R5JUZI6aGukm+Q87Bw
+9tcYT4xmvL9kca0fNPcWr0LtZ1PWhEz5ALoD/+qDXq/GjZVm1m4fe0Ctljl1
+DS4dfTO4hbwGvsEm3yYWE4vTdnBlT16AIyU/cmwtJhUlK0Sez+G9o4zKddhj
+M04zVTwF6jqnyFFvtOKLOtaxHoH/epu9uQt9UAYu8lRxM6jHPYlbj4sbhOfn
+ZDbBvQTBJO1SX3zUkFhiNF0GBw5XBbopNuDfwHMZzKF6sFj7o+1mBhu9X3p1
+uu+Xwh62fhJ7rh9ekH4aFAivA2UebfC+H/YR/u17VjXgFLmkMS3CH3Vs6b/Z
+hlWQHrdhq+0/fxTIrt4yEZSD5r/5AWjf5SHR330ZUCPIwU3CqTHijjI4l3om
+YKiDgy4nT0vmZZeAMqNamcELxEWnWBCXWwwctaGGQbhMu7rDuLEQJGffet69
+EoSGNzaTnMYCMCyjgPEKxpL+Q7sX2OTBtkqjrN+9wcjMfZcS3yoGDR4CLprL
+aotUTTlAv0Ool4bg33hvUfywCA4+CD70oDYET4TQvaqDhNClxpMTinrN2Ymq
+tixwoegbGwpFCX+CxH7lSTjVUxQvztqIRlqc/PGRdBj8VGu80CEMvQ1auEYD
+x4FJ2dciD8Mj7WYTTI3TQMNzVDhGzSr/+Tj6KIxrIhznbwZbeV8K/AfxbXd4
+
+      "]]}, 
+    {RGBColor[1, 0, 0], Thickness[0.01], Dashing[{0, Small, Small, Small}], 
+     LineBox[CompressedData["
+1:eJwlknsw1AEQx88jlVReGb2E8hiXqU5Ix2/XUac7z3NHp9OcdAl5RCU0XSfG
+Y1IpiSLpMlR661R6k6ipTKrLXDGSSgo97xD6/bSzO/vffne/+7HakMCTaNNo
+NAZZVD9WQsUNIIx91fMGvhPcN08TrMS6aDoe1WYjdYcPW6Om1g+ZoFyxOlJ5
+nQty9acwScN8zG+qz61l8uEysfx1dtNCFBRKvvg1C6FA9mtMdM4eB1qeTXf/
+Fg6JjbV2jIOOaFCTMqY0E0P13pVkLsNgun/Fd4YYzCuPuffXOOHxU/ExQ13r
+IadpuHXtAhekSQUqI1cRaCi5ghVYITvRvklbCNQ2jrpMNK9i2spuCUDpMHd/
+8Q4PLFNIiuvP84Dtm26t0wso9Uj7XNgfACpFnErh6Ik5lRF7RlhcOPyozObr
+JhYWEuqSv/5smLj3pBcu2iZLujjqBTq9ozdC2r1xxELmhq6eQKntM16Nk6+2
+CrpbPCBZf73/fS4bC0obicQeN6CT8n8yfTCOW/qNWe4C7+l3yFyDOT/TFc4q
+JyCvWxyh5uAWhWlLTMYy4PlZpBQt9cU0k+ZLG3WXADXuSbQfqpZ7Vj8rosOD
++N3TtOT+yLBNV6bK7SFNekHg8jYAr3zq4YrNbMHcZ+D5tbxAZKZOSrHvXAjb
+AidvD7QLQvWv7qrYQSsgzZvT1xCEK+qK6NZgCYsjXO9miXlY235Gui5zPuRE
+B2y0HOWh/ssGjqZ7zv//lgTjjPu9uakHzQEnBPmYHZl/kyM1g9KMo8GDL/ho
+MRxgmlVlCpq8i5q8BAFe/8DwkWuZAJ8y1CAEOTUcPe9sI7h0vJN1rzoETZJ+
+uGkYhmBwmgRmVSimPbjm6EybAZtrZub/7grFVtFeeviraTCBx+61yArRfprX
+MRUW3KZeKsSMNs+w57OmQPrD0F0P64QYd/ssU2+HHigpPPlhKGf37VQM64IT
+Sd/wYBhWWA8GD5XrwIGO8tgj+euwlNNsKNmgDX0f6wyXOohw3EzsMEJoAZu0
+73GTCFmjzsLZTrT/PEeGY3Km5F37zjFifCLC8VBkFdF6+S/xD82zbWs=
+      "]]}, 
+    {RGBColor[1, 0, 0], Thickness[0.01], Dashing[Small], 
+     LineBox[CompressedData["
+1:eJwlknsw1AEQxxWVpNJrPBp0IfIYReOM165XJ4/rnMN1d8r7ktcpStxc0dHN
+j0tSOElSdDOuXE2RMXlUd9fUNDX9QUZTU0MYj0ypKNLvp53d2f/2u/vdDy0x
+m52yUk9Pz40sqtcpqOgE4ob+pWnhfb+wd6+yafEGOJkXtmDDYMBwjnBt1/wW
+VE1xOVz3VLj5a5SX8tQSCQymldnmwz2/ff3ntTa4VpKR+Fwkhcqi2b+CVgfU
+iULn9RVyED17YO920QVbO+uLVJuqQHnOi8y92FM1JFbEV4NZc53PtModA70j
+N/oIakGm/f2Ga+2BD3K/5excrYA5Sq7SE0ftNSd5TbVAbeNi4I0LP9Z/GiFq
+YMBx+4Xak76o7LrzeLdJNTDCC3fqjwNa1vXJBzMuw1B75lC7iz8+LOfvE2ov
+QZXumt1kagAOXm9kWbtVwvK9jYEobviZbJdXAfrji50xg0FY1VC/rUJXDpRa
++eb9OF5edm67gIATRoeZfWEM7Pajx5e6ysCJlP8pDcFuNB7v9imFz07dZB5A
++RKdbSqRAnmdc8KvULRm6YLHpoqBHWF1qnpPONq1qNs/lxYBNe5lWgTSXRv5
+7kFn4UmWZN2Km0wM0Y5mmAdKoODM3WiP9wex2dOrkuEhBrOQr68fEiwkjKy6
+wvkFkMtak8eyj8TZ7H4iTpUPpHkWE08jUWlh65BlewqcE+g9JfFs9N4xN2be
+kweytIPJOxbZGBKgtpDn5/7/ryIKRYEdwTkRJwCXBTloT8OpIa/jUF9cEzXz
+loMtz42awC8H5oi2OSI7GkfVbc5HokXAoQw1jkGZuMayZCEL1Fc/BvQqY1C6
+K8WTn5UJxrdIYIJjUaceGHZdTIejqo3yH59icWRrtEd4yzFYxkPCxV5Dcx5D
+mAbWj6mXHkIDTbpswfcoFGpixZqOQ9iwakNysYMQBig8OTy01DAv2tilgjtJ
+3+8ZHnaNDDK5bilQ8eF6+hU5H8Hw9mIvMxkmvnSY7HEU4KMIZRTtdBIwSPte
+aAXYt9oUBerE/zwnxeEf+i2O6HsCLC1HHE7PS1ty/RPgHzrjbUY=
+      "]]}, 
+    {RGBColor[1, 0, 0], Thickness[0.01], Dashing[Medium], 
+     LineBox[CompressedData["
+1:eJwlknkw1AEUx9eRK9RI251oSjabqxwd3kOFWLSWtaLWUewUq1QSKdRUW1up
+qY0lSplNuli7jg6s/SmRJg1K5ZjSoSlTQibp9+PNe/P+e9/3vu9jHilkb9ek
+0Wj2ZFE9J5uKSljUaVqf08h39eloFprztfHkrs/GA30IH3bH6Ff/mYHR02d+
+CpYKoXD4U+h21QIs2i2z4ElPwn3XlW3HicU47OuY6N2SC1npg//Cbi1DHVmk
+BX1KMSTUyy3tzzHR60CMRz9dDrLM1WTa4Zq8uRddDlbD7Bs5a7+XOKDxT57w
+vGktnCBGX4SYOWKXs1G2X5UKRii5LGecX2q/SZylBmobpvYavJZe1CQoJqCd
+Me/M5f3rUF9y9qYvowE8fVMstL4A0s91PBlzaYBORVyngumGGq+UVhV/CbjQ
+kLfk2w53dGiVBWWLCZi4t8ADEzW32FvRCND6MlYZ/Ho95psb3+6LUAOldtpk
+I3JN5s/qqa6HRIOtfrU+nphUZHNbz7QelpPyQ0e9UHXjyCGreBX0Ln9Epjc+
+lxHb8prqgLzOOmJ4E9roarYTtnXAZi1MumTri9EtzSXR0lqgxj0TsHAw5hq/
+0bAW6uLTpmoU+mGh1+eZOsdq4ODhO0GOb/2xp7iVNqpVA7O9frSUiwKwW5HR
+/MbkMewN0N0XYLkZRQLWRxvGIyDNm9uv2oz6kBTPZj0E6winx8f4bByRHF8t
+TXkAJwT+0YvG2Fjw48GyKHn15H+zA3GKt9sK3eEqwAlBDjq06T396l4FuRmS
+wIGXHLzPEkUmSyphRHR3RCQMQqd02tjSwQrgUIYaBiPdZJogIaQC7km73Gtk
+wagRN87sVCnB8DoJzAYuZmaGuf1epYTYkmni3z1cVJ9Kvcq5o4AJPNJC0GCD
+XfclawWYPaReysNYo+Qi/r1ySFFzU9VKHqroek7hLuXQTuHJCcWC1rhf6xrk
+4EDSNzoQiowrzL5KnhzOvs/feVG8BQt6LQPFA2XQ36ecbssIQ4FU1z/5VBl4
+kvY1EmF43Wco3INRNslzVDgavhHPKW8qhfGJCMfijpZ30j2l8B+DhXfs
+      "]]}, 
+    {RGBColor[1, 0, 0], Thickness[0.01], Dashing[Large], 
+     LineBox[CompressedData["
+1:eJwlk3tQTHEUx1cYj0qmMI2UHpLSjsgkj5yjomJLbbub1rbyiCJW9GA370zN
+jhSGtOhho4zETrSzXrserWjKo0gTwpZtu/di6GWb5N6cOWfOf7/vOd/z+bls
+knATLFgs1gK6mK4oZEIDw8Ncq3BzX8Ca9w0Sl/gxyDpZ9PRWoit0pGybcO+P
+HR7OUTq/b48HZb9RmPDEEVmra4XXxFmgWr7wXbbeDTfJWn8FphbBqSM9f0XX
+52AZ9/WuLg8V7H5622NBPhtDyysUi7RaqDi2hM75ePr2UeXkiOdgf0Wx7Hul
+L6ZP8LSo63sNOXrzq3Uz/TBYE6uYzWuBAUbulD/ePZB9vzj6AzDTsMcsxbdR
+YVXquM/Q4uVw8nx6APK9Ygo6A75CCEfmOtoEWLOFM+j40gBtNTvbatgr0HLW
+1Cy1QyeceXbJndwaiCnjqKrged9gZN+SIExr1PdKpxhhtGlII2gNRk6ezZ+U
+ZiMwaidsV+Gb+kdhueldsHeiOOLRmhCstiNcK1kmmEvL92WF4hl1WW9yhgm+
+zn1IZxg6Poy2lnwyAb2d98b+1Zin1ZfK/buBG+6Ucc6Hg+Vw/tdQdjcwz9Un
+haPvYsm+/MZueLzroOUoZQR6z99O3bAmQHqoiu/3YS2GXjcQ0lUE2If+eHlH
+Honj5YWlHfsJSI0clxbpEYUhepu6ygoCaPOmE0+iMKhzSsOeJgK8Ny7SHo/n
+Yr2N/ce7ZgJyktZucR7iosFOyvvtRP6/b2E0cloDB/chCTgiyEPbnh18xQYS
+Lh4tiP75hodiu8WgyCRhQH5zQC7ho6Fj6bCqgAQeY6iVACeViClbFQm3LrQH
+6ioEqFVW6411JFiV0cCsjEFLlaOO305CYqVNbu+XGBzML0840EPCCB4H12Ha
+NN8o2XgKZj5gThqL0z11ukQHCmS1MZm16lh0l2psRWwKWhg8eUJ0s45kJy2n
+wJemz/xTiNXsj82lERTkfSrecTZ3PQq4kp6pYgqIb+rJPl4inFFm0daUTEEI
+bd8LvQgvu2yVdEmp/zxvjsOxs7eLNuRQ9D9gIg773a/6BZ2l4B/bMYcx
+      "]]}}, {{}, {}, 
+    {RGBColor[1, 0, 0], Thickness[0.01], LineBox[CompressedData["
+1:eJwlknkwlHEYx4kZk3RharsIYzdpVTS2SM+TDleOdre1hLYkFDbTOVYkNUkK
+NR0ox8SkcqbW0ZAjW0TKTC2zymS0zt2fCbXMSO/LM88zz3/P93m+z8fsmJgb
+skBLS8uWKrpnZtBRDY2vk0oezZiAR1e72Eyki65V5bU3mEegPzp04ZspIyx0
+vmm2NisRnvwd8A9pWocvWTsqvYKzoXzXtm/XZRaYqnfP176tHNITJv4FvNiA
+SzgG5THsBjj97hXLNo2Nks2ZU+y0NihMdKByKybV5eSZLv4KjILMneoiO4zQ
+DPbkMXsgSTb9WWhqjxaXY7R44p+goeXSt2PBnbJgI1E/0NuwdR2xUPtLc1OH
+EuQb19x+eN4JZy8wgi43DoLLAYm5zhCgcNVCH0u3YVBIIxVS9m6cDnXg6F0c
+gbvvH1uOnnBGVcia06xjo/P35u5BjTeLG7FSBTpDM9WC7r04q+FahOargFZL
+MdyPeTYV3W8M1XBGP8irwcMFV/RmSyrC1WBNyf+56optFeJuWYka+qzrqHTD
+FBN30XKlGqjrNh39647yyRbhc0MCXE+TC/e3HECrbVzjQXsC9LiP4Z6YHz9d
+nM4n0BgVt0j7iRf2xznl6kQSiIkvOWTf441mNa457gkEGK6k43WyD1YPRAk4
+dwic9dE758M6iMaxGZqIXAKUeatHmg4ij9lhEFFEYNNRzttrIi4+m1VIMqUE
+ksK9j6+f4aLl1ZNZbm/J/H8zeLjfMbGuRkYA5wT5OFCtLDZvJ/DoygPeWCcf
+bcq6vYs6CWiSSzXJ4kOotJJWxMgJ8GlDDQRY1Sl9+lxBoCyr17m+UIDGopOT
+vF4CBvkUMPt88YHHhF9yH4GwoqW3Jn/6YkGCyi3oF4E5POKEyEz4lPJ9gIBp
+Lf1SPzSJHawyGiYgafaNba70Q/l42339UQJyGk++P7aMh0a3qgjYUfRNj/nj
+j2KFwJ8QSP2Rc+rercO4g+PsWT9GYERZuWzLxgCsYX64pP2bgAtlX6ssABmV
++kLzcTLPc3AgMsIcS5kTBGbnIhC7HB06l08S+A89NI7j
+      "]]}}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  AxesOrigin->{0, 0},
+  BaseStyle->{FontFamily -> "Arial", FontSize -> 18},
+  Frame->True,
+  FrameLabel->{
+    FormBox[
+    "\"\\!\\(\\*SubscriptBox[\\(PO\\), \\(2\\)]\\), torr\"", TraditionalForm], 
+    FormBox["\"Fraction of Relaxed Species\"", TraditionalForm]},
+  FrameStyle->Thickness[0.005],
+  ImageSize->{648, 432},
+  PlotLabel->FormBox[
+   "\"Relaxed Species vs. \\!\\(\\*SubscriptBox[\\(PO\\), \\(2\\)]\\)\"", 
+    TraditionalForm],
+  PlotRange->{All, {0, 1}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{
+  3.5621028508915253`*^9, {3.5621029407269325`*^9, 3.5621029761149263`*^9}, 
+   3.562103012707073*^9, {3.5621030436920075`*^9, 3.562103069979846*^9}, {
+   3.5621031123177223`*^9, 3.5621031243502502`*^9}, 3.562103203673823*^9, 
+   3.5621032426067667`*^9, {3.5621042983273263`*^9, 3.5621043042430773`*^9}, 
+   3.5621046014068127`*^9, 3.562104705062975*^9, 3.562104751525375*^9, 
+   3.5621050405330744`*^9, 3.562279083605539*^9, 3.5622791456359158`*^9, 
+   3.562279710909196*^9, 3.5622797955629463`*^9, 3.562279850922476*^9}]
+}, Open  ]]
+},
+WindowSize->{1060, 855},
+WindowMargins->{{377, Automatic}, {Automatic, 8}},
+ShowSelection->True,
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (October 6, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 1358, 34, 371, "Text"],
+Cell[1918, 56, 15704, 331, 2072, "Input"],
+Cell[CellGroupData[{
+Cell[17647, 391, 1148, 17, 72, "Input"],
+Cell[18798, 410, 8379, 151, 447, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

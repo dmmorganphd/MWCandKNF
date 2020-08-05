@@ -1,0 +1,673 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     28328,        664]
+NotebookOptionsPosition[     27933,        647]
+NotebookOutlinePosition[     28300,        663]
+CellTagsIndexPosition[     28257,        660]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+This is based on MWCPlot, originally developed for my presentation in London, \
+but now redisigned (hopefully) to function with sliders as a \
+\[OpenCurlyDoubleQuote]Manipulate\[CloseCurlyDoubleQuote] object in a CDF.
+
+MWCPlot is quite general; any quantity resulting from the simulation can be \
+plotted against any other resulting quantity. Here I assume that the x-axis \
+will always be PO2, and that users would want to consider how all R, all T, \
+or Y species vary with PO2. 
+
+So here is my list of possible plots:
+
+\t0\tY vs. PO2
+\t1\tfR vs. PO2
+\t2\tR0, R1, R2, R3, R4, fR vs. PO2
+\t3\t0 & 1
+\t4\t0 & 2
+\t5\tfT vs. PO2
+\t6\tT0, T1, T2, T3, T4, fT vs PO2
+\t7\t0 & 5
+\t8\t0 & 6
+\t9\t0, 1, 5
+\t10\t0, 2, 6
+
+Prior drafts of MWCGenGraph have been based on the idea of making base plots \
+and combining them as required with Show commands.
+I believe Show and PlotLegend do not work well together. For evidence, quit \
+kernel, Evaluate Notebook MWC Implementation draft 1, then Evaluate Notebook \
+scratchpad, and look into In/Out 53 through 55.
+
+So I am redesigning MWCGenGraph so it is based on base datasets instead. 
+
+\
+\>", "Text",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGAQAWIQ7blt7r70/FeOXI2/T4PoSaUSBcc7XzmmbkydD6Jr
+N800OAWk/6ctAtMf/hyZehpIr3A5BqaPXWE0ugak80TYwbSSqfvu60DayhJC
+r+iZcQhEH5PmPwyi2WQXBTB2vXLsOqYTBaKvi0lYMwPpgAw2GxBdtL/NBUR/
+VlFxA9H1/+cFgeh9JzJCQPSey/NiQPSlYv5kEJ30Ti5Bp/uVY6vX/nQQHWli
+kAei61uNy0H0MtXkOhB9h4mzFURfmT9lN4iOWqC0B0TPu36qThdItzBw1INo
+ow9hs0E0w+X/c0D0N1eZ6yBaJWQqmN7xwucRiK4tmPQURAMA436gWg==
+  "]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"MWCGenGraph", "[", "\[IndentingNewLine]", 
+   RowBox[{"arg_", ",", " ", "MWCDataSet_"}], "\[IndentingNewLine]", "]"}], 
+  " ", ":=", " ", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{"DATASET", ",", "\[IndentingNewLine]", "OUTPUT"}], 
+     "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"DATASET", " ", "=", " ", 
+      RowBox[{"Which", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"arg", " ", "\[Equal]", " ", "0"}], ",", " ", 
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+           ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}]}], "}"}], "\[IndentingNewLine]", "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "1"}], ",", " ", 
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+           ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "5", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}]}], "}"}], "\[IndentingNewLine]", "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "2"}], ",", " ", 
+        RowBox[{"Prepend", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Table", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+             RowBox[{"{", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{"#", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+                "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"#", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], " ", "&"}], "/@", 
+                "MWCDataSet"}]}], "\[IndentingNewLine]", "}"}], 
+             "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", " ", 
+              RowBox[{"{", 
+               RowBox[{"11", ",", "12", ",", "13", ",", "14", ",", "15"}], 
+               "}"}]}], "}"}]}], "\[IndentingNewLine]", "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+           RowBox[{"Prepend", "[", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}], "&"}], " ", "/@", " ", 
+               "MWCDataSet"}], "}"}], ",", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"#", "[", 
+                RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], "/@", " ", 
+              "MWCDataSet"}]}], "\[IndentingNewLine]", "]"}], 
+           "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}], ",", 
+        " ", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "3"}], ",", " ", 
+        RowBox[{"Table", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+           RowBox[{"{", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{"#", "[", 
+                RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+              "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"#", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], " ", "&"}], "/@", 
+              "MWCDataSet"}]}], "\[IndentingNewLine]", "}"}], 
+           "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", " ", 
+            RowBox[{"{", 
+             RowBox[{"3", ",", "5"}], "}"}]}], "}"}]}], "\[IndentingNewLine]",
+          "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "4"}], ",", " ", 
+        RowBox[{"Prepend", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Prepend", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Table", "[", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+               RowBox[{"{", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"#", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], " ", "/@", 
+                  " ", "mwcsolutionset"}], ",", "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"#", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], " ", "&"}], " ", "/@", 
+                  " ", "mwcsolutionset"}]}], "\[IndentingNewLine]", "}"}], 
+               "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"{", 
+               RowBox[{"i", ",", " ", 
+                RowBox[{"{", 
+                 RowBox[{
+                 "11", ",", " ", "12", ",", "13", ",", "14", ",", "15"}], 
+                 "}"}]}], "}"}]}], "\[IndentingNewLine]", "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{"#", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+                "mwcsolutionset"}], ",", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"#", "[", 
+                  RowBox[{"[", "3", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+                "mwcsolutionset"}]}], "}"}], "\[IndentingNewLine]", "]"}]}], 
+           "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{"#", "[", 
+                RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+              "mwcsolutionset"}], ",", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"#", "[", 
+                RowBox[{"[", "5", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+              "mwcsolutionset"}]}], "}"}], "\[IndentingNewLine]", "]"}]}], 
+         "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "5"}], ",", " ", 
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+           ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "4", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}]}], "}"}], "\[IndentingNewLine]", "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "6"}], ",", " ", 
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "6", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "7", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "8", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "9", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "10", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}]}], "\[IndentingNewLine]", "}"}], 
+         "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "7"}], ",", " ", 
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+           ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "4", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}]}], "\[IndentingNewLine]", "}"}], 
+         "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "8"}], ",", " ", 
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "6", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "7", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "8", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "9", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "10", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}]}], "\[IndentingNewLine]", "}"}], 
+         "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "9"}], ",", " ", 
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+           ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "5", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "4", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}]}], "\[IndentingNewLine]", "}"}], 
+         "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"arg", " ", "\[Equal]", " ", "10"}], ",", " ", 
+        RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "MWCDataSet"}], 
+           ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], "&"}], " ", "/@", " ", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "11", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "12", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "13", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "14", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "15", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "6", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "7", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "8", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "9", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "10", "]"}], "]"}], "/", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], "+", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], "&"}], "/@", 
+            "MWCDataSet"}]}], "\[IndentingNewLine]", "}"}], 
+         "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"OUTPUT", " ", "=", " ", 
+      RowBox[{
+      "ListPlot", "[", "\[IndentingNewLine]", "DATASET", 
+       "\[IndentingNewLine]", "]"}]}]}]}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.561930486343814*^9, 3.5619305412352843`*^9}, {
+   3.5619305878197002`*^9, 3.5619306099140053`*^9}, {3.5619333171807847`*^9, 
+   3.561933343610141*^9}, {3.5619333751686482`*^9, 3.56193353606658*^9}, {
+   3.5619335983039827`*^9, 3.5619336202867746`*^9}, {3.5619341218949704`*^9, 
+   3.561934301494277*^9}, {3.5619343884898233`*^9, 3.5619344048218975`*^9}, {
+   3.5619345059447384`*^9, 3.5619345060707545`*^9}, {3.5619346766419144`*^9, 
+   3.561934823586074*^9}, 3.561934860443754*^9, {3.5619349533720546`*^9, 
+   3.5619352725955906`*^9}, {3.5619353187079463`*^9, 3.561935344812261*^9}, {
+   3.5619829491692467`*^9, 3.5619830402118077`*^9}, {3.5619831786683893`*^9, 
+   3.5619832063949103`*^9}, {3.561983248948814*^9, 3.561983264674811*^9}, {
+   3.5619835037526703`*^9, 3.561983512630297*^9}, {3.5620143989708643`*^9, 
+   3.562014451469031*^9}, 3.5620145099139524`*^9, {3.5620146328685656`*^9, 
+   3.5620149323685975`*^9}, {3.562014967162016*^9, 3.5620149694373045`*^9}, {
+   3.5620150000326896`*^9, 3.5620150319027367`*^9}, {3.5620150628426657`*^9, 
+   3.5620152395336027`*^9}, {3.562015600495939*^9, 3.56201563476229*^9}, {
+   3.5620156746143503`*^9, 3.5620156979608154`*^9}, {3.562016021253868*^9, 
+   3.5620160742470975`*^9}, {3.562016916662571*^9, 3.562016922373796*^9}, {
+   3.5620176563499994`*^9, 3.56201765651502*^9}, {3.5620177028849087`*^9, 
+   3.562017703361469*^9}, {3.562018130519711*^9, 3.562018130677231*^9}, {
+   3.56201851765137*^9, 3.562018525339347*^9}, 3.562019278247954*^9, {
+   3.56201941445625*^9, 3.562019423764432*^9}, {3.562019455178921*^9, 
+   3.5620194695892515`*^9}, {3.5620195022744017`*^9, 3.562019523657117*^9}, {
+   3.5620999604314833`*^9, 3.562099960617507*^9}, 3.5621000884727426`*^9, {
+   3.56210256341152*^9, 3.562102625064849*^9}, {3.562102763589939*^9, 
+   3.5621028187654457`*^9}, {3.562102993951192*^9, 3.5621030075294156`*^9}, {
+   3.562103059938571*^9, 3.562103061338749*^9}, {3.562103097631857*^9, 
+   3.562103120998824*^9}, {3.562103154441571*^9, 3.5621031969774723`*^9}, {
+   3.5621032385247483`*^9, 3.5621032392603416`*^9}, {3.5621032932481976`*^9, 
+   3.562103297054181*^9}, {3.562103330176387*^9, 3.562103463949874*^9}, {
+   3.562103511336391*^9, 3.5621035913820553`*^9}, {3.562104181042433*^9, 
+   3.5621042807915993`*^9}, {3.5621044169333873`*^9, 
+   3.5621045536437473`*^9}, {3.562104645022851*^9, 3.5621047006174107`*^9}, {
+   3.562104741967161*^9, 3.562104747554371*^9}, 3.562279142264988*^9, {
+   3.5622796725983315`*^9, 3.5622796972759647`*^9}, {3.562279790698328*^9, 
+   3.5622798459568453`*^9}, 3.5622799798258443`*^9, {3.562448483556655*^9, 
+   3.56244853809258*^9}, {3.562449561387022*^9, 3.5624495837268586`*^9}, {
+   3.5624496269333453`*^9, 3.562449693100747*^9}, {3.562449771685726*^9, 
+   3.5624498260071244`*^9}, {3.5624513572985735`*^9, 3.562451398784342*^9}, {
+   3.5624537644342413`*^9, 3.562453794476556*^9}, {3.5624542758981886`*^9, 
+   3.562454320606866*^9}, {3.5626263768606815`*^9, 3.5626264037565966`*^9}, {
+   3.5626264913092146`*^9, 3.562626495785783*^9}, {3.5626265341531553`*^9, 
+   3.56262656427448*^9}, {3.562626701313882*^9, 3.562626712512804*^9}, {
+   3.562626778562191*^9, 3.562626819156346*^9}, {3.5626281955426245`*^9, 
+   3.5626283271153326`*^9}, {3.562628364522582*^9, 3.5626285268436947`*^9}, {
+   3.562628595232379*^9, 3.562628610494317*^9}, 3.5626286651372557`*^9, {
+   3.562628711483141*^9, 3.562628745266431*^9}, {3.562629979313135*^9, 
+   3.5626300007858615`*^9}, {3.5626301996241107`*^9, 
+   3.5626302440677547`*^9}, {3.562630295041727*^9, 3.5626303439729404`*^9}, {
+   3.5626304347589693`*^9, 3.562630514871642*^9}, {3.562630594683777*^9, 
+   3.562630653477743*^9}, {3.562630691717098*^9, 3.5626307135153666`*^9}, {
+   3.562630784921934*^9, 3.5626308243269377`*^9}, {3.5626308675609283`*^9, 
+   3.562630877043132*^9}, {3.5626309720862007`*^9, 3.5626310603229055`*^9}, {
+   3.562631180270137*^9, 3.562631252447302*^9}, {3.5626736182463274`*^9, 
+   3.562673647575827*^9}, {3.5626768687504888`*^9, 3.5626768862759933`*^9}, {
+   3.562676923001337*^9, 3.5626769384034166`*^9}, 3.5626773193340473`*^9, {
+   3.5626773704905477`*^9, 3.562677405977048*^9}, {3.5626774487205477`*^9, 
+   3.5626774633985476`*^9}, 3.5626792270356445`*^9, {3.5626794586921444`*^9, 
+   3.5626794859169154`*^9}, {3.5626797141600547`*^9, 3.562679714926208*^9}, {
+   3.562680323654069*^9, 3.562680329265069*^9}, {3.5626804365145693`*^9, 
+   3.562680442346569*^9}, {3.562687247900854*^9, 3.5626872635919914`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"test", " ", "=", " ", 
+  RowBox[{"MWCGenGraph", "[", "\[IndentingNewLine]", 
+   RowBox[{"4", ",", " ", "mwcsolutionset"}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.562631268267311*^9, 3.5626313015340357`*^9}, {
+   3.5626313493506074`*^9, 3.5626313756064415`*^9}, {3.5626733309893274`*^9, 
+   3.562673341267827*^9}, {3.562677413616048*^9, 3.562677414006548*^9}, {
+   3.5626792429641447`*^9, 3.5626792438831444`*^9}, 3.562680454070569*^9, 
+   3.562687275182309*^9}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.562687342544279*^9, 3.5626873425677834`*^9}}]
+},
+WindowSize->{967, 956},
+WindowMargins->{{Automatic, 321}, {39, Automatic}},
+ShowSelection->True,
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (February 23, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 1552, 41, 479, "Text"],
+Cell[2112, 63, 25203, 568, 2432, "Input"],
+Cell[27318, 633, 514, 9, 72, "Input"],
+Cell[27835, 644, 94, 1, 31, InheritFromParent]
+}
+]
+*)
+
+(* End of internal cache information *)

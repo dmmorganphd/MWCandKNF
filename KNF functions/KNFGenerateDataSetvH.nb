@@ -1,0 +1,391 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     17604,        382]
+NotebookOptionsPosition[     17064,        359]
+NotebookOutlinePosition[     17408,        374]
+CellTagsIndexPosition[     17365,        371]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+This generates a KNF data set, returning concentrations of all species as \
+functions of user-specified total oxygen and total hemoglobin concentrations \
+given user-specified dissociation constants. Generates a user-specified \
+number of data points between user-specified minimum and maximum partial \
+pressures of oxygen.\
+\>", "Text",
+ CellChangeTimes->{{3.5462054835657983`*^9, 3.5462055142045507`*^9}, {
+  3.5462055710448017`*^9, 3.5462056817251325`*^9}, {3.548024624790634*^9, 
+  3.548024714623041*^9}, {3.5480249022443657`*^9, 3.5480249049502096`*^9}, {
+  3.5480250046363688`*^9, 3.5480251164275637`*^9}, {3.548030403389423*^9, 
+  3.548030528092758*^9}, {3.5618284278150268`*^9, 3.561828458956481*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"KNFGenerateDataSetvH", "[", "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{
+     "kd1_", ",", " ", "kd2_", ",", " ", "kd3_", ",", " ", "kd4_", ",", " ", 
+      "totalHb_", ",", " ", "minPO2_", ",", " ", "maxPO2_", ",", " ", 
+      "numPoints_"}], "}"}], "\[IndentingNewLine]", "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"iterator", ",", "SOLUTIONSET", ",", " ", "OUTPUT"}], "}"}], 
+     ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"SOLUTIONSET", " ", "=", " ", 
+       RowBox[{"Table", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"KNFSolvevH", "[", "\[IndentingNewLine]", 
+          RowBox[{"{", 
+           RowBox[{
+           "kd1", ",", " ", "kd2", ",", " ", "kd3", ",", " ", "kd4", ",", " ",
+             "iterator", ",", " ", "totalHb"}], "}"}], "\[IndentingNewLine]", 
+          "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{
+          "iterator", ",", " ", "minPO2", ",", " ", "maxPO2", ",", " ", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"maxPO2", " ", "-", " ", "minPO2"}], ")"}], " ", "/", 
+            " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "1"}], " ", "+", " ", "numPoints"}], ")"}]}]}], 
+          "}"}]}], "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"OUTPUT", " ", "=", " ", 
+       RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Do", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"OUTPUT", " ", "=", " ", 
+         RowBox[{"Append", "[", "\[IndentingNewLine]", 
+          RowBox[{"OUTPUT", ",", "\[IndentingNewLine]", 
+           RowBox[{"{", "\[IndentingNewLine]", 
+            RowBox[{"(*", " ", "PO2", " ", "*)"}], "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"minPO2", " ", "+", " ", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"-", "1"}], " ", "+", " ", "iterator"}], ")"}], " ", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"maxPO2", " ", "-", " ", "minPO2"}], ")"}], " ", "/",
+                 " ", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"-", "1"}], " ", "+", " ", "numPoints"}], 
+                 ")"}]}]}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", "YY", " ", "*)"}], "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{"total", " ", "sites", " ", "occupied"}], " ", "*)"}], 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"0", " ", 
+                 RowBox[{"SOLUTIONSET", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"iterator", ",", " ", "1", ",", " ", "2"}], "]"}], 
+                  "]"}]}], " ", "+", "  ", 
+                RowBox[{"SOLUTIONSET", "[", 
+                 RowBox[{"[", 
+                  RowBox[{"iterator", ",", " ", "1", ",", " ", "3"}], "]"}], 
+                 "]"}], " ", "+", " ", 
+                RowBox[{"2", " ", 
+                 RowBox[{"SOLUTIONSET", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"iterator", ",", " ", "1", ",", " ", "4"}], "]"}], 
+                  "]"}]}], " ", "+", " ", 
+                RowBox[{"3", " ", 
+                 RowBox[{"SOLUTIONSET", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"iterator", ",", " ", "1", ",", " ", "5"}], "]"}], 
+                  "]"}]}], " ", "+", " ", 
+                RowBox[{"4", " ", 
+                 RowBox[{"SOLUTIONSET", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"iterator", ",", " ", "1", ",", " ", "6"}], "]"}], 
+                  "]"}]}]}], ")"}], " ", "\[IndentingNewLine]", "/", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(*", " ", 
+               RowBox[{"total", " ", "sites"}], " ", "*)"}], 
+              "\[IndentingNewLine]", 
+              RowBox[{"(", 
+               RowBox[{"4", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"SOLUTIONSET", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"iterator", ",", " ", "1", ",", " ", "2"}], "]"}],
+                    "]"}], " ", "+", " ", 
+                  RowBox[{"SOLUTIONSET", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"iterator", ",", " ", "1", ",", " ", "3"}], "]"}],
+                    "]"}], " ", "+", " ", 
+                  RowBox[{"SOLUTIONSET", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"iterator", ",", " ", "1", ",", " ", "4"}], "]"}],
+                    "]"}], " ", "+", " ", 
+                  RowBox[{"SOLUTIONSET", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"iterator", ",", " ", "1", ",", " ", "5"}], "]"}],
+                    "]"}], " ", "+", " ", 
+                  RowBox[{"SOLUTIONSET", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"iterator", ",", " ", "1", ",", " ", "6"}], "]"}],
+                    "]"}]}], ")"}]}], ")"}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{
+              "O2", ",", " ", "T4RO20", ",", " ", "T3RO21", ",", " ", 
+               "T2RO22", ",", " ", "T1RO23", ",", " ", "T0RO24"}], " ", 
+              "*)"}], "\[IndentingNewLine]", 
+             RowBox[{"SOLUTIONSET", "[", 
+              RowBox[{"[", 
+               RowBox[{"iterator", ",", " ", "1", ",", " ", "1"}], "]"}], 
+              "]"}], ",", 
+             RowBox[{"SOLUTIONSET", "[", 
+              RowBox[{"[", 
+               RowBox[{"iterator", ",", " ", "1", ",", " ", "2"}], "]"}], 
+              "]"}], ",", 
+             RowBox[{"SOLUTIONSET", "[", 
+              RowBox[{"[", 
+               RowBox[{"iterator", ",", " ", "1", ",", " ", "3"}], "]"}], 
+              "]"}], ",", " ", 
+             RowBox[{"SOLUTIONSET", "[", 
+              RowBox[{"[", 
+               RowBox[{"iterator", ",", " ", "1", ",", " ", "4"}], "]"}], 
+              "]"}], ",", " ", 
+             RowBox[{"SOLUTIONSET", "[", 
+              RowBox[{"[", 
+               RowBox[{"iterator", ",", " ", "1", ",", " ", "5"}], "]"}], 
+              "]"}], ",", " ", 
+             RowBox[{"SOLUTIONSET", "[", 
+              RowBox[{"[", 
+               RowBox[{"iterator", ",", " ", "1", ",", " ", "6"}], "]"}], 
+              "]"}]}], "\[IndentingNewLine]", "}"}]}], "\[IndentingNewLine]", 
+          "]"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"iterator", ",", " ", 
+          RowBox[{"Length", "[", "SOLUTIONSET", "]"}]}], "}"}]}], 
+       "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", "OUTPUT"}]}],
+     "\[IndentingNewLine]", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", "\"\<Function \
+KNFGenerateDataSetvH\n\nUsage:\n\n\
+KNFGenerateDataSetvH[\[IndentingNewLine]{kd1_, kd2_, kd3_, kd4_, totalHb_, \
+minPO2_, maxPO2_, numPoints_}\[IndentingNewLine]]\n\nin which:\n\t\
+kd1\\t\\tdissociation constant for the first oxygen binding event\n\t\
+kd2\\t\\tdissociation constant for the second oxygen binding event\n\t\
+kd3\\t\\tdissociation constant for the third oxygen binding event\n\t\
+kd4\\t\\tdissociation constant for the fourth oxygen binding event\n\ttotalHb\
+\\ttotal amount of hemoglobin in the system (molar)\n\tminPO2\\t minimum \
+partial pressure of oxygen above solution (torr)\n\tmaxPO2\\t maximum partial \
+pressure of oxygen above solution (torr)\n\tnumPoints  the number of points \
+for which to compute solutions\n\nReturns:\n\nA list of length numPoints the \
+elements of which are\n\n{\nPO2, Y, O2, T4RO20, T3RO21, T2RO22, T1RO23, \
+T0RO24\n}\n\nin which:\n\tPO2\\t   partial pressure of oxygen above solution \
+(torr)\n\tY\\t\\t fraction of available sites which are occupied by oxygen\n\t\
+O2\\t    concentration (molar) of oxygen in solution \n\t\
+T4RO20\\tconcentration (molar) of the species to which no oxygen is bound\n\t\
+T4RO21\\tconcentration (molar) of the singly oxygen bound species\n\t\
+T4RO22\\tconcentration (molar) of the doubly oxygen bound species\n\t\
+T4RO23\\tconcentration (molar) of the triply oxygen bound species\n\t\
+T4RO24\\tconcentration (molar) of the quadruply oxygen bound species\>\""}], \
+"Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.546206506243292*^9, 3.546206525890416*^9}, {
+   3.546206564495624*^9, 3.5462066016897516`*^9}, {3.5462070634071603`*^9, 
+   3.5462070635421677`*^9}, {3.5480251819833884`*^9, 
+   3.5480253003169146`*^9}, {3.548025694381955*^9, 3.548025698055421*^9}, {
+   3.5480285016714354`*^9, 3.548028512936866*^9}, {3.5480286602975783`*^9, 
+   3.5480292233790803`*^9}, {3.548029270208527*^9, 3.548029346523218*^9}, {
+   3.548029434376874*^9, 3.5480296211430902`*^9}, {3.548029654231792*^9, 
+   3.5480296742943397`*^9}, {3.5480297324287214`*^9, 3.5480298579386597`*^9}, 
+   3.5480299076744747`*^9, {3.548029947315009*^9, 3.548029973398821*^9}, {
+   3.5480300152601366`*^9, 3.5480301189858084`*^9}, {3.5480301781103163`*^9, 
+   3.5480302586410418`*^9}, {3.5481573916083264`*^9, 3.548157441148732*^9}, {
+   3.54815749765003*^9, 3.548157552377974*^9}, {3.5481575962502465`*^9, 
+   3.548157662299954*^9}, {3.548157720362564*^9, 3.5481577928825655`*^9}, {
+   3.5481578236567187`*^9, 3.5481578759241705`*^9}, {3.5481580141683135`*^9, 
+   3.548158050642107*^9}, 3.5606268990726156`*^9, 3.5618283457081003`*^9}],
+
+Cell[BoxData["\<\"Function \
+KNFGenerateDataSetvH\\n\\nUsage:\\n\\nKNFGenerateDataSetvH[\[IndentingNewLine]\
+{kd1_, kd2_, kd3_, kd4_, totalHb_, minPO2_, maxPO2_, numPoints_}\
+\[IndentingNewLine]]\\n\\nin which:\\n\\tkd1\\t\\tdissociation constant for \
+the first oxygen binding event\\n\\tkd2\\t\\tdissociation constant for the \
+second oxygen binding event\\n\\tkd3\\t\\tdissociation constant for the third \
+oxygen binding event\\n\\tkd4\\t\\tdissociation constant for the fourth \
+oxygen binding event\\n\\ttotalHb\\ttotal amount of hemoglobin in the system \
+(molar)\\n\\tminPO2\\t minimum partial pressure of oxygen above solution \
+(torr)\\n\\tmaxPO2\\t maximum partial pressure of oxygen above solution \
+(torr)\\n\\tnumPoints  the number of points for which to compute solutions\\n\
+\\nReturns:\\n\\nA list of length numPoints the elements of which \
+are\\n\\n{\\nPO2, Y, O2, T4RO20, T3RO21, T2RO22, T1RO23, T0RO24\\n}\\n\\nin \
+which:\\n\\tPO2\\t   partial pressure of oxygen above solution \
+(torr)\\n\\tY\\t\\t fraction of available sites which are occupied by \
+oxygen\\n\\tO2\\t    concentration (molar) of oxygen in solution \\n\\tT4RO20\
+\\tconcentration (molar) of the species to which no oxygen is \
+bound\\n\\tT4RO21\\tconcentration (molar) of the singly oxygen bound \
+species\\n\\tT4RO22\\tconcentration (molar) of the doubly oxygen bound \
+species\\n\\tT4RO23\\tconcentration (molar) of the triply oxygen bound \
+species\\n\\tT4RO24\\tconcentration (molar) of the quadruply oxygen bound \
+species\"\>"], "Output",
+ CellChangeTimes->{
+  3.548029913028655*^9, {3.5480299890383067`*^9, 3.54803005410857*^9}, {
+   3.5480300905777006`*^9, 3.5480301203904867`*^9}, {3.5480301792719636`*^9, 
+   3.548030259295125*^9}, 3.548030677907282*^9, {3.548030770773575*^9, 
+   3.548030770940096*^9}, {3.5481574458581743`*^9, 3.5481574657266474`*^9}, {
+   3.5481577978470583`*^9, 3.548157878962778*^9}, {3.548158017411962*^9, 
+   3.5481580514777737`*^9}, 3.5481581571529045`*^9, {3.5483518133618774`*^9, 
+   3.548351813377477*^9}}]
+}, Open  ]],
+
+Cell["Example:", "Text",
+ CellChangeTimes->{{3.548028609956686*^9, 3.548028611979943*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"kd1", " ", "=", " ", ".0001"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"kd2", " ", "=", " ", ".00005"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"kd3", " ", "=", " ", ".00001"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"kd4", " ", "=", " ", ".000005"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"totalHb", " ", "=", " ", ".01"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"minPO2", " ", "=", " ", ".001"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"maxPO2", " ", "=", " ", "65"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"numPoints", " ", "=", " ", "50"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"arguments", " ", "=", " ", 
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+     "kd1", ",", "kd2", ",", "kd3", ",", "kd4", ",", "totalHb", ",", " ", 
+      "minPO2", ",", " ", "maxPO2", ",", " ", "numPoints"}], 
+     "\[IndentingNewLine]", "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"output", " ", "=", " ", 
+    RowBox[{
+    "KNFGenerateDataSetvH", "[", "\[IndentingNewLine]", "arguments", 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"ListPlot", "[", "\[IndentingNewLine]", 
+  RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"#", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+      "output"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"#", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+      "output"}]}], "}"}], "\[IndentingNewLine]", "]"}], 
+  "\[IndentingNewLine]", "]"}]}], "Input",
+ CellChangeTimes->{{3.5462070263100386`*^9, 3.5462070517924957`*^9}, {
+   3.5462070847933836`*^9, 3.5462073403189983`*^9}, {3.5462073958091726`*^9, 
+   3.5462074056327343`*^9}, 3.546207445345006*^9, {3.5462097371980925`*^9, 
+   3.54620973873218*^9}, {3.548030748590758*^9, 3.5480307545090094`*^9}, {
+   3.5481580881436057`*^9, 3.5481581464357615`*^9}, {3.5481582044033527`*^9, 
+   3.5481582287622232`*^9}, {3.5481583099764633`*^9, 3.548158329087785*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, 
+   {Hue[0.67, 0.6, 0.6], PointBox[CompressedData["
+1:eJwBMQPO/CFib1JlAgAAADIAAAACAAAA/Knx0k1iUD+NQo0S5e/RPrsw+lZ7
+PfU/nReCg1TleT+G0j8NbzsFQI+UrEyDDpA/r4wCbyDYD0BeVAkTwWagP2yj
+YuhoOhVAwfgsGgnhrj+AAESZwYgaQC9nchp917o/lV0lShrXH0D3tuDxyW7F
+P1Rdg325kiJALm2r1o56zz/eC/TV5TklQKuQP6KwZ9U/aLpkLhLhJ0D4hurm
+8zrbP/Jo1YY+iCpAVjCWu+Bj4D98F0bfai8tQLKtLa0a4uI/B8a2N5fWL0Bk
+eA9xrgflP0m6E8jhPjFA/lyyF5zT5j+OEUz0d5IyQDL/avbMTeg/02iEIA7m
+M0Dj86Cr3IHpPxjAvEykOTVA9YEAN+Z76j9dF/V4Oo02QJquQ6nuRus/om4t
+pdDgN0AojiZFUezrP+fFZdFmNDlAForce7Jz7D8sHZ79/Ic6QFSTh+wt4+w/
+cXTWKZPbO0BgPaDZlj/tP7bLDlYpLz1A4CZUBriM7T/7IkeCv4I+QCCbF3yL
+ze0/QXp/rlXWP0BbgEhXaATuP8LoW+31lEBAcrfAKCcz7j9lFHgDwT5BQBiQ
+UVU+W+4/B0CUGYzoQUA8tE3/133uP6prsC9XkkJAmCWC3+Kb7j9Ml8xFIjxD
+QFus5TUftu4/78LoW+3lQ0CO1Bm9KM3uP5HuBHK4j0RAyG7RVn7h7j80GiGI
+gzlFQNMLNvyH8+4/10U9nk7jRUDNbMxbmwPvP3lxWbQZjUZAYDmbdP8R7z8c
+nXXK5DZHQKs02mrvHu8/vsiR4K/gR0BTIcXDnCrvP2H0rfZ6ikhA2oIqKzE1
+7z8DIMoMRjRJQBaSCt3PPu8/pkvmIhHeSUBbeWTHlkfvP0h3Ajnch0pAO7+h
+c59P7z/roh5PpzFLQKAYhsP/Vu8/jc46ZXLbS0Dxs9qKyl3vPzD6Vns9hUxA
+S5EADRBk7z/SJXORCC9NQK3yBGTeae8/dVGPp9PYTUBkG5/VQW/vPxd9q72e
+gk5ATu6QGUV07z+6qMfTaSxPQAirK5TxeO8/XdTj6TTWT0AecSqHT33vPwAA
+AAAAQFBAr8+jOmaB7z8AGH04
+     "]]}, {}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesOrigin->{0, 0},
+  PlotRange->{{0., 65.}, {0., 0.9845458169279392}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{
+    Scaled[0.02], 
+    Scaled[0.02]}]], "Output",
+ CellChangeTimes->{
+  3.5480307715246696`*^9, 3.5481574657776575`*^9, 3.5481577979000683`*^9, 
+   3.548158157343443*^9, {3.548158217811034*^9, 3.5481582299299574`*^9}, 
+   3.5481583120458775`*^9, 3.5483518135334773`*^9}]
+}, Open  ]]
+},
+WindowSize->{771, 1002},
+WindowMargins->{{Automatic, 565}, {0, Automatic}},
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (October 6, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 720, 11, 65, "Text"],
+Cell[CellGroupData[{
+Cell[1302, 35, 9537, 189, 1472, "Input",
+ InitializationCell->True],
+Cell[10842, 226, 2034, 29, 677, "Output"]
+}, Open  ]],
+Cell[12891, 258, 90, 1, 29, "Text"],
+Cell[CellGroupData[{
+Cell[13006, 263, 2346, 57, 492, "Input"],
+Cell[15355, 322, 1693, 34, 248, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

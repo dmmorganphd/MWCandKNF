@@ -1,0 +1,514 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     16671,        505]
+NotebookOptionsPosition[     16309,        487]
+NotebookOutlinePosition[     16674,        503]
+CellTagsIndexPosition[     16631,        500]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["T and R spp. PlotMarkers", "Title",
+ CellChangeTimes->{{3.56245167179851*^9, 3.5624516839235497`*^9}, {
+  3.5624530683393483`*^9, 3.562453069354977*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MarkerR4O20", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"EdgeForm", "[", 
+         RowBox[{"Directive", "[", "Red", "]"}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", "White", 
+        ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".95"}], ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MarkerR4O21", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"Red", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", 
+        RowBox[{"EdgeForm", "[", 
+         RowBox[{"Directive", "[", "Red", "]"}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".95"}], ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MarkerR4O22", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"Red", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", "Red", 
+        ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", 
+        RowBox[{"EdgeForm", "[", 
+         RowBox[{"Directive", "[", "Red", "]"}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".95"}], ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MarkerR4O23", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"Red", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", "Red", 
+        ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", "Red", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", 
+        RowBox[{"EdgeForm", "[", 
+         RowBox[{"Directive", "[", "Red", "]"}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".95"}], ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MarkerR4O24", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"Red", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", "Red", 
+        ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", "Red", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", "Red", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".95"}], ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MarkerT4O20", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"EdgeForm", "[", 
+         RowBox[{"Directive", "[", "Blue", "]"}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", "White", 
+        ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".95"}], ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MarkerT4O21", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"Blue", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", 
+        RowBox[{"EdgeForm", "[", 
+         RowBox[{"Directive", "[", "Blue", "]"}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".95"}], ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MarkerT4O22", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"Blue", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", "Blue", 
+        ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", 
+        RowBox[{"EdgeForm", "[", 
+         RowBox[{"Directive", "[", "Blue", "]"}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".95"}], ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"MarkerT4O23", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"Blue", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", "Blue", 
+        ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", ".05"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", "Blue", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{".05", ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{".95", ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", 
+        RowBox[{"EdgeForm", "[", 
+         RowBox[{"Directive", "[", "Blue", "]"}], "]"}], ",", "White", ",", 
+        RowBox[{"Rectangle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".95"}], ",", 
+            RowBox[{"-", ".05"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", ".05"}], ",", 
+            RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"MarkerT4O24", "=", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Blue", ",", 
+       RowBox[{"Rectangle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "0.95"}], ",", ".05"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", ".05"}], ",", ".95"}], "}"}]}], "]"}], ",", "Blue", 
+       ",", 
+       RowBox[{"Rectangle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{".05", ",", ".05"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{".95", ",", ".95"}], "}"}]}], "]"}], ",", "Blue", ",", 
+       RowBox[{"Rectangle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{".05", ",", 
+           RowBox[{"-", ".05"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{".95", ",", 
+           RowBox[{"-", ".95"}]}], "}"}]}], "]"}], ",", "Blue", ",", 
+       RowBox[{"Rectangle", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", ".95"}], ",", 
+           RowBox[{"-", ".05"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", ".05"}], ",", 
+           RowBox[{"-", ".95"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]"}], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.5624549121224785`*^9, 3.5624549121259794`*^9}, {
+  3.5624549509014034`*^9, 3.5624550184764843`*^9}, {3.562455059997757*^9, 
+  3.5624551243899336`*^9}, {3.562455188832617*^9, 3.5624552143153524`*^9}, {
+  3.562455466386862*^9, 3.5624555635361977`*^9}}]
+}, Open  ]]
+},
+WindowSize->{1264, 665},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True,
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (February 23, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 159, 2, 83, "Title"],
+Cell[741, 26, 15552, 458, 612, "Input",
+ InitializationCell->True]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

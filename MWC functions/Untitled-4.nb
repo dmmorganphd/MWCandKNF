@@ -1,0 +1,117 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      3455,        107]
+NotebookOptionsPosition[      2994,         86]
+NotebookOutlinePosition[      3338,        101]
+CellTagsIndexPosition[      3295,         98]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", 
+  RowBox[{
+   RowBox[{"Prime", "[", 
+    RowBox[{"Range", "[", "100", "]"}], "]"}], ",", " ", 
+   RowBox[{"PlotRange", " ", "\[Rule]", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "100"}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", " ", "700"}], "}"}]}], "}"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.5622806474506216`*^9, 3.5622806901795473`*^9}, {
+  3.5622807924990406`*^9, 3.5622808422118535`*^9}, {3.5622808722681704`*^9, 
+  3.562280911075598*^9}, {3.562280948276822*^9, 3.5622809820196066`*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, 
+   {Hue[0.67, 0.6, 0.6], PointBox[CompressedData["
+1:eJxd1Elu1EAYBlCLFUsvWLBg0SCEEEKomWdiAoEwmzCFQaIJCSCGxMwz1BH6
+CD6Cj+Aj+AhesvQRAPnVwh0p+vLy+XecripvX9lYWtuUJMnqv+//2X91c37I
+hrl5JrfIVG6b+f0uuVXumbluvxzJg3KHPCp3ytMz952Tu/sM88O/E87zXl7g
+fXyRx3x5+FzhGh/g68PnrHM+xDf5cJ/ZEh/R3xr+X/VtPub6u3ycl/kE3+eT
+5qNP8QP2OWUP+Qw/Yp9b/ZizPieTPgOPnujP6jlwuaKf77PluA7lU/0586t6
+bjmxTuWanifP9Nat5LiO7XP9Bc/7Qs8lJ9a5jT1PXuoX9a/0PHmtv+R+HHj0
+Rm/ftBz30Whdf8X9NvScFvqrfRYcuIm9fdjFnvO3evtyynGfVrG/4fp3eh6/
+19vHBWc85cANx31ffTBv36cfzXPFgRuO5yT9ZN45KTiem44D55/Nc8WJc9Vx
+xvkX89xwPIfpV/PO4ZQzHn8zzznHc9txcsf9vpvnggNXXMfrf5h37qcc3wMN
+B+645vFP8/f0nHHxyzxXXPP4t3nvmYLje6fhwIvBPC9z4j30J2R/AZmOuZY=
+
+     "]]}, {}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesOrigin->{0, 0},
+  PlotRange->{{0, 100}, {0, 700}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{
+  3.5622808529017105`*^9, {3.5622808937789016`*^9, 3.5622809824771647`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"?", "PlotLegend"}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.562281389514352*^9, 3.5622813923457117`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Information", "::", "notfound"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Symbol \[NoBreak]\\!\\(\\\"PlotLegend\\\"\\)\[NoBreak] not \
+found. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/notfound\\\", ButtonNote -> \
+\\\"Information::notfound\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.562281400450741*^9}]
+}, Open  ]],
+
+Cell[BoxData["O"], "Input",
+ CellChangeTimes->{{3.5622814198697066`*^9, 3.5622814205937986`*^9}}]
+},
+WindowSize->{707, 817},
+WindowMargins->{{120, Automatic}, {Automatic, -6}},
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (October 6, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 608, 14, 31, "Input"],
+Cell[1190, 38, 1024, 22, 243, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2251, 65, 157, 3, 52, "Input"],
+Cell[2411, 70, 467, 10, 21, "Message"]
+}, Open  ]],
+Cell[2893, 83, 97, 1, 31, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

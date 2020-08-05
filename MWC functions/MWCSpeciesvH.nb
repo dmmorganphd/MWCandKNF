@@ -1,0 +1,313 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     13556,        304]
+NotebookOptionsPosition[     13014,        281]
+NotebookOutlinePosition[     13361,        296]
+CellTagsIndexPosition[     13318,        293]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+This notebook computes solutions for all species defined in the MWC model of \
+allostery
+
+J Mol Biol. 1965 May;12:88-118.
+
+in terms of user-specified allosteric and dissociation constants for the T \
+and R states, using user-specified oxygen partial pressure and total \
+hemoglobin concentrations.
+
+Copyright (C), 2012,
+David M. Morgan, Ph.D.
+dmorgan@stfx.ca
+St. Francis Xavier University, Angitonish, NS, Canada
+Under the terms of the G.N.U. General Public License Version 3:00 or later.
+http://www.gnu.org/licenses/gpl.html
+
+In what follows oxygen concentration is specified as a partial pressure in \
+torr. Dissolved oxygen is directly computed as consequence of Henry\
+\[CloseCurlyQuote]s law. I am using the value of Henry\[CloseCurlyQuote]s \
+constant for oxygen, kH(O2) = 1.3 X 10^-3 mol / (L atm) as found on p. 446, \
+Atkins and Jones, Chemistry, 3rd Edition, Freeman, 1997. \
+\>", "Text",
+ CellChangeTimes->{{3.5480678953170013`*^9, 3.5480680677405014`*^9}, 
+   3.5480683218600016`*^9, 3.5481676990559034`*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"MWCSpeciesvH", "[", "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{
+     "ll_", ",", " ", "kdt_", ",", " ", "kdr_", ",", " ", "PO2_", ",", " ", 
+      "totalHb_"}], "}"}], "\[IndentingNewLine]", "]"}], " ", ":=", " ", 
+   RowBox[{"Module", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+      "FF", ",", "\[IndentingNewLine]", "SYSTEM", ",", "\[IndentingNewLine]", 
+       "FUNCS", ",", "\[IndentingNewLine]", "SOLUTION", ",", 
+       "\[IndentingNewLine]", "OUTPUT", ",", "\[IndentingNewLine]", "T4O20", 
+       ",", " ", "T4O21", ",", " ", "T4O22", ",", " ", "T4O23", ",", " ", 
+       "T4O24", ",", " ", "R4O20", ",", " ", "R4O21", ",", " ", "R4O22", ",", 
+       " ", "R4O23", ",", " ", "R4O24", ",", "\[IndentingNewLine]", "RRState",
+        ",", "\[IndentingNewLine]", "TTState", ",", "\[IndentingNewLine]", 
+       "OCCUPYSITES", ",", "\[IndentingNewLine]", "TOTALSITES", ",", 
+       "\[IndentingNewLine]", "YY", ",", "\[IndentingNewLine]", "TOTALO2", 
+       ",", "\[IndentingNewLine]", "iterator", ",", "\[IndentingNewLine]", 
+       "kHO2"}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"kHO2", " ", "=", " ", 
+       RowBox[{"0.0013", " ", "/", " ", "760"}]}], " ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"M", " ", "/", " ", "torr"}], " ", "*)"}], ";", " ", 
+      "\[IndentingNewLine]", 
+      RowBox[{"SYSTEM", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"T4O20", " ", "\[Equal]", " ", 
+           RowBox[{"ll", " ", "R4O20"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"T4O21", " ", "\[Equal]", " ", 
+           RowBox[{"T4O20", " ", "4", " ", 
+            RowBox[{"FF", " ", "/", " ", "kdt"}]}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"T4O22", " ", "\[Equal]", " ", 
+           RowBox[{"T4O21", " ", 
+            RowBox[{"(", 
+             RowBox[{"3", "/", "2"}], ")"}], " ", 
+            RowBox[{"FF", " ", "/", " ", "kdt"}]}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"T4O23", " ", "\[Equal]", " ", 
+           RowBox[{"T4O22", " ", 
+            RowBox[{"(", 
+             RowBox[{"2", "/", "3"}], ")"}], " ", 
+            RowBox[{"FF", " ", "/", " ", "kdt"}]}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"T4O24", " ", "\[Equal]", " ", 
+           RowBox[{"T4O23", " ", 
+            RowBox[{"(", 
+             RowBox[{"1", "/", "4"}], ")"}], " ", 
+            RowBox[{"FF", " ", "/", " ", "kdt"}]}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"R4O21", "\[Equal]", 
+           RowBox[{"R4O20", " ", "4", " ", 
+            RowBox[{"FF", "/", "kdr"}]}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"R4O22", "\[Equal]", 
+           RowBox[{"R4O21", " ", 
+            RowBox[{"(", 
+             RowBox[{"3", "/", "2"}], ")"}], " ", 
+            RowBox[{"FF", "/", "kdr"}]}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"R4O23", "\[Equal]", 
+           RowBox[{"R4O22", " ", 
+            RowBox[{"(", 
+             RowBox[{"2", "/", "3"}], ")"}], " ", 
+            RowBox[{"FF", "/", "kdr"}]}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"R4O24", "\[Equal]", 
+           RowBox[{"R4O23", " ", 
+            RowBox[{"(", 
+             RowBox[{"1", "/", "4"}], ")"}], " ", 
+            RowBox[{"FF", "/", "kdr"}]}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"totalHb", " ", "\[Equal]", " ", 
+           RowBox[{
+           "T4O20", " ", "+", " ", "T4O21", " ", "+", " ", "T4O22", " ", "+", 
+            " ", "T4O23", " ", "+", " ", "T4O24", " ", "+", " ", "R4O20", " ",
+             "+", " ", "R4O21", " ", "+", " ", "R4O22", " ", "+", " ", 
+            "R4O23", " ", "+", " ", "R4O24"}]}]}], "\[IndentingNewLine]", 
+         "}"}], " ", "/.", 
+        RowBox[{"FF", " ", "\[Rule]", " ", 
+         RowBox[{"kHO2", " ", "PO2"}]}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"FUNCS", "=", " ", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{
+        "T4O20", ",", " ", "T4O21", ",", " ", "T4O22", ",", " ", "T4O23", ",",
+          " ", "T4O24", ",", " ", "R4O20", ",", " ", "R4O21", ",", " ", 
+         "R4O22", ",", " ", "R4O23", ",", " ", "R4O24"}], 
+        "\[IndentingNewLine]", "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"SOLUTION", " ", "=", " ", 
+       RowBox[{"Solve", "[", "\[IndentingNewLine]", 
+        RowBox[{"SYSTEM", ",", "\[IndentingNewLine]", "FUNCS"}], 
+        "\[IndentingNewLine]", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"TTState", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"Sum", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"FUNCS", "[", 
+           RowBox[{"[", "iterator", "]"}], "]"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"iterator", ",", " ", "1", ",", " ", "5"}], "}"}]}], 
+         "\[IndentingNewLine]", "]"}], "/.", " ", 
+        RowBox[{"SOLUTION", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"RRState", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"Sum", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"FUNCS", "[", 
+           RowBox[{"[", "iterator", "]"}], "]"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"iterator", ",", " ", "6", ",", " ", "10"}], "}"}]}], 
+         "\[IndentingNewLine]", "]"}], "/.", " ", 
+        RowBox[{"SOLUTION", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"OCCUPYSITES", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"T4O21", " ", "+", " ", 
+         RowBox[{"2", " ", "T4O22"}], " ", "+", " ", 
+         RowBox[{"3", " ", "T4O23"}], " ", "+", " ", 
+         RowBox[{"4", " ", "T4O24"}], " ", "+", " ", "R4O21", " ", "+", " ", 
+         RowBox[{"2", " ", "R4O22"}], " ", "+", " ", 
+         RowBox[{"3", " ", "R4O23"}], " ", "+", " ", 
+         RowBox[{"4", " ", "R4O24"}]}], "/.", " ", 
+        RowBox[{"SOLUTION", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"TOTALSITES", " ", "=", " ", 
+       RowBox[{"4", " ", "totalHb"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"YY", " ", "=", " ", 
+       RowBox[{"OCCUPYSITES", " ", "/", " ", "TOTALSITES"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"TOTALO2", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"kHO2", " ", "PO2"}], "+", " ", "OCCUPYSITES"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"OUTPUT", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{"PO2", ",", " ", 
+          RowBox[{"kHO2", " ", "PO2"}], ",", " ", "YY", ",", " ", "TTState", 
+          ",", " ", "RRState", ",", " ", "T4O20", ",", " ", "T4O21", ",", " ",
+           "T4O22", ",", " ", "T4O23", ",", " ", "T4O24", ",", " ", "R4O20", 
+          ",", " ", "R4O21", ",", " ", "R4O22", ",", " ", "R4O23", ",", " ", 
+          "R4O24"}], "}"}], " ", "/.", " ", 
+        RowBox[{"SOLUTION", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}]}]}]}], "\[IndentingNewLine]", 
+    "]"}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", "\"\<Function \
+MWCSpeciesvH\n\nUsage:\n\nMWCSpeciesvH[\[IndentingNewLine]{ll_, kdt_, kdr_, \
+PO2_, totalHb_}\[IndentingNewLine]] \n\nin which: \n\tll\\t\\t allosteric \
+constant\n\tkdt\\t\\tdissociation constant for O2 binding to the T state\n\t\
+kdr\\t\\tdissociation constant for O2 binding to the R state\n\tPO2\\t\\tO2 \
+partial pressure of oxygen above solution (torr)\n\ttotalHb\\ttotal \
+concentration of Hb (molar)\n\nThe output is a list with elements:\n\n{\
+\[IndentingNewLine]PO2, FF, YY, TTState, RRState, T4O20, T4O21, T4O22, T4O23, \
+T4O24, R4O20, R4O21, R4O22, R4O23, R4O24\n}\>\""}], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.5474977686976957`*^9, 3.5474978129498153`*^9}, {
+   3.5474980505474863`*^9, 3.547498137509529*^9}, {3.5474981801944494`*^9, 
+   3.547498431047804*^9}, {3.5474985699624434`*^9, 3.5474985950431285`*^9}, {
+   3.547498653195013*^9, 3.547498655765339*^9}, {3.5474986932826033`*^9, 
+   3.547498854350056*^9}, {3.5474988933035026`*^9, 3.5474991185696077`*^9}, {
+   3.5474991707542343`*^9, 3.5474991768615103`*^9}, {3.5474993391731205`*^9, 
+   3.547499351335665*^9}, {3.5476757164060783`*^9, 3.5476759772236977`*^9}, {
+   3.5476760198181067`*^9, 3.5476760530383253`*^9}, {3.5481677074250774`*^9, 
+   3.5481677748880672`*^9}, {3.5481678759752803`*^9, 
+   3.5481679397680364`*^9}, {3.5481686418574266`*^9, 
+   3.5481686690843706`*^9}, {3.548168699902033*^9, 3.5481687121259775`*^9}, 
+   3.548168913245193*^9, {3.548168986890919*^9, 3.548168999911023*^9}, 
+   3.5481690463723135`*^9, {3.548169134452426*^9, 3.5481691703321*^9}, 
+   3.5481692005936513`*^9, 3.5481710323694334`*^9, {3.5482708022867036`*^9, 
+   3.5482708347035604`*^9}}],
+
+Cell[BoxData["\<\"Function MWCSpeciesvH\\n\\nUsage:\\n\\nMWCSpeciesvH[\
+\[IndentingNewLine]{ll_, kdt_, kdr_, PO2_, totalHb_}\[IndentingNewLine]] \
+\\n\\nin which: \\n\\tll\\t\\t allosteric constant\\n\\tkdt\\t\\tdissociation \
+constant for O2 binding to the T state\\n\\tkdr\\t\\tdissociation constant \
+for O2 binding to the R state\\n\\tPO2\\t\\tO2 partial pressure of oxygen \
+above solution (torr)\\n\\ttotalHb\\ttotal concentration of Hb \
+(molar)\\n\\nThe output is a list with \
+elements:\\n\\n{\[IndentingNewLine]PO2, FF, YY, TTState, RRState, T4O20, \
+T4O21, T4O22, T4O23, T4O24, R4O20, R4O21, R4O22, R4O23, R4O24\\n}\"\>"], \
+"Output",
+ CellChangeTimes->{
+  3.548171033914242*^9, {3.5482708430807753`*^9, 3.5482708664808164`*^9}}]
+}, Open  ]],
+
+Cell["Example.", "Text",
+ CellChangeTimes->{{3.5481698108281736`*^9, 3.548169812763561*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ll", " ", "=", " ", "9054"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"kdt", " ", "=", " ", 
+   RowBox[{".00001", "/", ".014"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"kdr", " ", "=", " ", ".00001"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PO2", " ", "=", " ", "10"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"totalHb", " ", "=", " ", ".0001"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MWCSpeciesvH", "[", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+    "ll", ",", " ", "kdt", ",", " ", "kdr", ",", " ", "PO2", ",", " ", 
+     "totalHb"}], "}"}], "\[IndentingNewLine]", "]"}], " "}]}], "Input",
+ CellChangeTimes->{{3.548169054669472*^9, 3.548169102153467*^9}, {
+  3.548169224283388*^9, 3.548169224902512*^9}, {3.5481693298815036`*^9, 
+  3.5481693430181303`*^9}, {3.548169373213168*^9, 3.5481693733401937`*^9}, {
+  3.5481695045334272`*^9, 3.5481695135647326`*^9}, {3.548169548360691*^9, 
+  3.5481697906476383`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "10", ",", "0.000017105263157894733`", ",", "0.02666516066011222`", ",", 
+   "0.0000994605955304485`", ",", "5.394044695515155`*^-7", ",", 
+   "0.00009047748469261187`", ",", "8.666790638976503`*^-6", ",", 
+   "3.113202426895505`*^-7", ",", "4.9702003657454534`*^-9", ",", 
+   "2.975580482123922`*^-11", ",", "9.993095283036434`*^-9", ",", 
+   "6.837380983130566`*^-8", ",", "1.7543280154085338`*^-7", ",", 
+   "2.0005494912553153`*^-7", ",", "8.554981377078858`*^-8"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.5482708665276165`*^9}]
+}, Open  ]]
+},
+WindowSize->{628, 778},
+WindowMargins->{{Automatic, 146}, {-56, Automatic}},
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (February 23, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 1030, 24, 317, "Text"],
+Cell[CellGroupData[{
+Cell[1612, 48, 8869, 172, 1592, "Input",
+ InitializationCell->True],
+Cell[10484, 222, 740, 11, 411, "Output"]
+}, Open  ]],
+Cell[11239, 236, 92, 1, 29, "Text"],
+Cell[CellGroupData[{
+Cell[11356, 241, 1062, 24, 192, "Input"],
+Cell[12421, 267, 577, 11, 73, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

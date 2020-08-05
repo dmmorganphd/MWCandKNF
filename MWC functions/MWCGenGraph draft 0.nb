@@ -1,0 +1,330 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     12973,        321]
+NotebookOptionsPosition[     12440,        298]
+NotebookOutlinePosition[     12805,        314]
+CellTagsIndexPosition[     12762,        311]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+This is based on MWCPlot, originally developed for my presentation in London, \
+but now redisigned (hopefully) to function with sliders as a \
+\[OpenCurlyDoubleQuote]Manipulate\[CloseCurlyDoubleQuote] object in a CDF.
+
+MWCPlot is quite general; any quantity resulting from the simulation can be \
+plotted against any other resulting quantity. Here I assume that the x-axis \
+will always be PO2, and that users would want to consider how all R, all T, \
+or Y species vary with PO2. 
+
+So here is my list of possible plots:
+
+\t0\tY vs. PO2
+\t1\tR0, R1, R2, R3, R4 vs. PO2
+\t2\tAll R vs. PO2
+\t3\t1 & 2
+\t4\t1 & 3
+\t5\tT0, T1, T2, T3, T4 vs PO2
+\t6\tAll T vs. PO2
+\t7\t1 & 6
+\t8\t1 & 7
+\t9\t1, 2 & 7
+
+\
+\>", "Text",
+ CellChangeTimes->{{3.5480693649285016`*^9, 3.548069471859502*^9}, {
+  3.561896832764352*^9, 3.5618972111779046`*^9}, {3.561902468803038*^9, 
+  3.561902469075073*^9}, {3.561905326155876*^9, 3.561905326195881*^9}, {
+  3.5619270560572233`*^9, 3.561927056221244*^9}, {3.561930202225236*^9, 
+  3.5619302022257357`*^9}, {3.56193026076717*^9, 3.5619302644721403`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"MWCGenGraph", "[", "\[IndentingNewLine]", 
+    RowBox[{"arg_", ",", " ", "MWCDataSet_"}], "\[IndentingNewLine]", "]"}], 
+   " ", ":=", " ", 
+   RowBox[{"Module", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+      "YLIST", ",", "\[IndentingNewLine]", "XLIST", ",", 
+       "\[IndentingNewLine]", "XYLIST", ",", "\[IndentingNewLine]", 
+       "OUTPUT"}], "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"YLIST", " ", "=", " ", 
+       RowBox[{"Which", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"arg", " ", "\[Equal]", " ", "0"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+            "MWCDataSet"}], ",", " ", "Black", ",", " ", "\"\<Y\>\""}], "}"}],
+          ",", "\[IndentingNewLine]", 
+         RowBox[{"arg", " ", "\[Equal]", " ", "1"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"Null", ",", " ", "Null"}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"arg", " ", "\[Equal]", " ", "2"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "5", "]"}], "]"}], " ", "/", " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], " ", "+", " ", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], " ", "&"}], " ", "/@",
+             " ", "MWCDataSet"}], ",", " ", "Red", ",", " ", "\"\<fR\>\""}], 
+          "}"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"arg", " ", "\[Equal]", " ", "3"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"Null", ",", " ", "Null"}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"arg", " ", "\[Equal]", " ", "4"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"Null", ",", " ", "Null"}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"arg", " ", "\[Equal]", " ", "5"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"Null", ",", " ", "Null"}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"arg", " ", "\[Equal]", " ", "6"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "[", 
+               RowBox[{"[", "4", "]"}], "]"}], " ", "/", " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "4", "]"}], "]"}], " ", "+", " ", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "5", "]"}], "]"}]}], ")"}]}], " ", "&"}], " ", "/@",
+             " ", "MWCDataSet"}], ",", "Blue", ",", " ", "\"\<fT\>\""}], 
+          "}"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"arg", " ", "\[Equal]", " ", "7"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"Null", ",", " ", "Null"}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"arg", " ", "\[Equal]", " ", "8"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"Null", ",", " ", "Null"}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"arg", " ", "\[Equal]", " ", "9"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"Null", ",", " ", "Null"}], "}"}]}], "\[IndentingNewLine]", 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"XLIST", " ", "=", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"#", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], " ", "&"}], " ", "/@", " ", 
+        "MWCDataSet"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"XYLIST", " ", "=", " ", 
+       RowBox[{"Transpose", "[", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"XLIST", ",", " ", 
+          RowBox[{"YLIST", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}], "}"}], "\[IndentingNewLine]", 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"OUTPUT", " ", "=", " ", 
+       RowBox[{"ListPlot", "[", "\[IndentingNewLine]", 
+        RowBox[{"XYLIST", ",", " ", "\[IndentingNewLine]", 
+         RowBox[{"PlotRange", " ", "\[Rule]", " ", 
+          RowBox[{"{", 
+           RowBox[{"All", ",", " ", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"-", "0.05"}], ",", "1.05"}], "}"}]}], "}"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"PlotStyle", " ", "\[Rule]", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"YLIST", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], ",", " ", 
+            RowBox[{"PointSize", "[", "0.015", "]"}]}], "}"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Axes", "\[Rule]", " ", "False"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Frame", " ", "\[Rule]", " ", "True"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"FrameLabel", " ", "\[Rule]", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"\<PO2\>\"", ",", " ", 
+            RowBox[{"YLIST", "[", 
+             RowBox[{"[", "3", "]"}], "]"}]}], "}"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"PlotLabel", " ", "\[Rule]", " ", 
+          RowBox[{
+           RowBox[{"YLIST", "[", 
+            RowBox[{"[", "3", "]"}], "]"}], " ", "<>", " ", "\"\< vs. \>\"", 
+           " ", "<>", " ", "\"\<PO2\>\""}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{"ImageSize", " ", "\[Rule]", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"9", " ", "72"}], ",", " ", 
+            RowBox[{"6", " ", "72"}]}], "}"}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{"TextStyle", " ", "\[Rule]", " ", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"FontFamily", " ", "\[Rule]", " ", "\"\<Arial\>\""}], ",",
+             " ", 
+            RowBox[{"FontSize", "\[Rule]", " ", "18"}]}], "}"}]}]}], 
+        "\[IndentingNewLine]", "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.561930486343814*^9, 3.5619305412352843`*^9}, {
+   3.5619305878197002`*^9, 3.5619306099140053`*^9}, {3.5619333171807847`*^9, 
+   3.561933343610141*^9}, {3.5619333751686482`*^9, 3.56193353606658*^9}, {
+   3.5619335983039827`*^9, 3.5619336202867746`*^9}, {3.5619341218949704`*^9, 
+   3.561934301494277*^9}, {3.5619343884898233`*^9, 3.5619344048218975`*^9}, {
+   3.5619345059447384`*^9, 3.5619345060707545`*^9}, {3.5619346766419144`*^9, 
+   3.561934823586074*^9}, 3.561934860443754*^9, {3.5619349533720546`*^9, 
+   3.5619352725955906`*^9}, {3.5619353187079463`*^9, 3.561935344812261*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MWCGenGraph", "[", 
+  RowBox[{"0", ",", "mwcsolutionset"}], "]"}]], "Input",
+ CellChangeTimes->{{3.5619345292777014`*^9, 3.561934539755032*^9}, {
+  3.561934619364141*^9, 3.5619346233321447`*^9}, {3.5619348748930893`*^9, 
+  3.56193488702763*^9}, {3.561935378421029*^9, 3.561935403164171*^9}, {
+  3.561935688898955*^9, 3.5619356921563683`*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, 
+   {GrayLevel[0], PointSize[0.015], 
+    PointBox[{{0.1, 5.0191724871172175`*^-6}, {8.664285714285715, 
+     0.03680254736746427}, {17.22857142857143, 0.2896357371089374}, {
+     25.792857142857144`, 0.6205420600936938}, {34.35714285714286, 
+     0.8037077407872918}, {42.92142857142858, 0.8852344162995636}, {
+     51.48571428571429, 0.9236364116201562}, {60.050000000000004`, 
+     0.9438817296400798}, {68.61428571428571, 0.9557610821522936}, {
+     77.17857142857143, 0.9633831205229463}, {85.74285714285715, 
+     0.9686367787894095}, {94.30714285714286, 0.9724688958703696}, {
+     102.87142857142857`, 0.9753915913885661}, {111.43571428571428`, 
+     0.9777006486963794}, {120., 0.9795768143285085}}]}, {}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  AxesOrigin->{0, 0},
+  BaseStyle->{FontFamily -> "Arial", FontSize -> 18},
+  Frame->True,
+  FrameLabel->{
+    FormBox["\"PO2\"", TraditionalForm], 
+    FormBox["\"Y\"", TraditionalForm]},
+  ImageSize->{648, 432},
+  PlotLabel->FormBox["\"Y vs. PO2\"", TraditionalForm],
+  PlotRange->{All, {-0.05, 1.05}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{
+  3.5619346260519905`*^9, 3.561934830110402*^9, {3.5619348650253363`*^9, 
+   3.561934888753849*^9}, 3.5619352824833465`*^9, 3.5619353496653776`*^9, {
+   3.561935380777828*^9, 3.561935405432459*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"MWCGenGraph", "[", 
+    RowBox[{"plotnum", ",", "mwcsolutionset"}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"plotnum", ",", " ", "0", ",", " ", "\"\<Plot Number\>\""}], 
+      "}"}], ",", " ", "0", ",", " ", "9", ",", " ", "1"}], "}"}]}], 
+  "\[IndentingNewLine]", "]"}]], "Input",
+ CellChangeTimes->{{3.5619357005399327`*^9, 3.5619358115665317`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`plotnum$$ = 6, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`plotnum$$], 0, "Plot Number"}, 0, 9, 1}}, 
+    Typeset`size$$ = {648., {212., 220.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`plotnum$1186$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`plotnum$$ = 0}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`plotnum$$, $CellContext`plotnum$1186$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> $CellContext`MWCGenGraph[$CellContext`plotnum$$, \
+$CellContext`mwcsolutionset], 
+      "Specifications" :> {{{$CellContext`plotnum$$, 0, "Plot Number"}, 0, 9, 
+         1}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{697., {273., 278.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.561935813137231*^9, 3.561935886709073*^9}]
+}, Open  ]]
+},
+WindowSize->{846, 1002},
+WindowMargins->{{Automatic, 394}, {0, Automatic}},
+ShowSelection->True,
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (October 6, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 1084, 29, 371, "Text"],
+Cell[1644, 51, 6766, 151, 772, "Input"],
+Cell[CellGroupData[{
+Cell[8435, 206, 366, 6, 31, "Input"],
+Cell[8804, 214, 1415, 28, 447, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10256, 247, 503, 12, 92, "Input"],
+Cell[10762, 261, 1662, 34, 568, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
